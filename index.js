@@ -33,7 +33,7 @@ const moduleRender = {
         if (module === true) {
             module = {};
         }
-        return `<hr class='extra-html-donate hr-${module.type || "solid"}'/>`
+        return `<hr class='extra-html-hr-${module.type || "solid"}'/>`
     }
 };
 
