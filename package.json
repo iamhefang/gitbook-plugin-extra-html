@@ -1,6 +1,7 @@
 {
   "name": "gitbook-plugin-extra-html",
-  "version": "1.0.0",
+  "description": "GitBook插件，支持加载html文件做为页头和页脚，内置多种模块可直接使用",
+  "version": "1.0.1",
   "main": "index.js",
   "repository": "https://github.com/iamhefang/gitbook-plugin-extra-html",
   "author": "hefang <he@hefang.link>",

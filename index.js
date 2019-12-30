@@ -16,7 +16,7 @@ const moduleRender = {
             module.buttonRadius = module.buttonRadius + "px";
         }
         const qrCodeHtml = (module.qrCodes || []).map(code => {
-            return `<div class="extra-html-donate-qrcode-item"><img src="${code.image}"/><p>${code.label}</p></div>`
+            return `<div class="extra-html-donate-qrcode-item"><img src="${code.image}" alt="${code.label}"/><p>${code.label}</p></div>`
         }).join("");
         return `<div class="extra-html-donate">
 <p>${module.description || "赠人玫瑰，手有余香"}</p>
