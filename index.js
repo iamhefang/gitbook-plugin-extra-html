@@ -34,6 +34,26 @@ const moduleRender = {
             module = {};
         }
         return `<hr class='extra-html-hr-${module.type || "solid"}'/>`
+    },
+    /**
+     * @param {CopyrightModule|boolean} module
+     */
+    copyright(module) {
+        if (!module) return "";
+        if (module === true) {
+            module = {
+                showLine: true,
+                content: "extra-html-plugin copyright hefang"
+            };
+        }
+        let {showLine = true, content = "extra-html-plugin copyright hefang"} = module;
+
+        const modifyTime = new Date()
+            , author = "xxx";
+
+        content = eval(`(\`${content}\`)`);
+
+        return `<p class="extra-html-copyright" data-showline="${showLine}">${content}</p>`
     }
 };
 
@@ -48,7 +68,9 @@ function file2text(me, files) {
         if (fs.existsSync(file)) {
             return fs.readFileSync(file, {encoding: "utf-8"})
         } else {
-            me.log.warn(`File "${file}" not exists, load failed!!`);
+            me.log.warn(
+                `File "${file}" not exists, load failed!!`
+            );
             return "";
         }
     }).join("")
@@ -56,17 +78,20 @@ function file2text(me, files) {
 
 /**
  * @param {Plugin} me
- * @param {Module} modules
+ * @param {(BaseModule|string)[]} modules
  */
 function module2text(me, modules) {
     let buffer = "";
-    for (const name in modules) {
+    modules.forEach(module => {
+        const name = typeof module === "string" ? module : module.name;
         if (!(name in moduleRender)) {
-            me.log.warn(`module "${name}" is not exists`);
-            continue;
+            me.log.warn(
+                `module "${name}" is not exists`
+            );
+            return;
         }
-        buffer += moduleRender[name](modules[name])
-    }
+        buffer += moduleRender[name](typeof module === "string" ? true : module)
+    });
     return buffer;
 }
 
@@ -94,12 +119,14 @@ module.exports = {
 
             let headerHtml = "";
             let footerHtml = "";
-            const headerModules = chainingCheck(config, "header.modules") || {};
-            const footerModules = chainingCheck(config, "footer.modules") || {};
+            const headerModules = chainingCheck(config, "header.modules") || [];
+            const footerModules = chainingCheck(config, "footer.modules") || [];
 
             headerHtml += module2text(this, headerModules) + file2text(this, chainingCheck(config, "header.files"));
             footerHtml += module2text(this, footerModules) + file2text(this, chainingCheck(config, "footer.files"));
-            page.content = `<header>${headerHtml}</header>${page.content}<footer>${footerHtml}</footer>`;
+            page.content =
+                `<header>${headerHtml}</header>${page.content}<footer>${footerHtml}</footer>`
+            ;
             return page;
         }
     }

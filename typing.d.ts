@@ -47,16 +47,26 @@ interface Module {
     divider?: DividerModule | true
 }
 
-interface DonateModule {
+interface DonateModule extends BaseModule<"DonateModule"> {
     buttonText: string
     buttonRadius: number | string
     description: string
     qrCodes: QrCode[]
 }
 
-interface DividerModule {
-    type: "dashed" | "solid"
+interface CopyrightModule extends BaseModule<"CopyrightModule"> {
+    showLine?: boolean
+    content: string
 }
+
+interface BaseModule<T> {
+    name?: T
+}
+
+interface DividerModule extends BaseModule<"DividerModule"> {
+    type?: "dashed" | "solid"
+}
+
 
 interface QrCode {
     image: string

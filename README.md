@@ -12,6 +12,12 @@ This is a plugin of gitbook to add some html to render result
                 "files": [
                     "_footer.html"
                 ],
+                "modules1": [
+                    "divider",
+                    {
+                        "name": "donate"
+                    }
+                ],
                 "modules": {
                     "divider": true,
                     "donate": {
